@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HallSession;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -12,7 +13,11 @@ class HallSessionController extends Controller
      */
     public function index(): Response
     {
-        //
+        $hall_sessions = HallSession::all();
+
+        return response()->json([
+            'hall_sessions' => $hall_sessions
+        ]);
     }
 
     /**
@@ -42,8 +47,12 @@ class HallSessionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): Response
+    public function destroy(HallSession $hall_session): Response
     {
-        //
+        $hall_session->delete();
+
+        return response()->json([
+            'message' => 'hall_session deleted'
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -12,7 +13,11 @@ class TicketController extends Controller
      */
     public function index(): Response
     {
-        //
+        $tickets = Ticket::all();
+
+        return response()->json([
+            'tickets' => $tickets
+        ]);
     }
 
     /**
@@ -42,8 +47,12 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): Response
+    public function destroy(Ticket $ticket): Response
     {
-        //
+        $ticket->delete();
+
+        return response()->json([
+            'message' => 'ticket deleted'
+        ]);
     }
 }

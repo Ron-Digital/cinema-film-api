@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Actor;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -12,7 +13,11 @@ class ActorController extends Controller
      */
     public function index(): Response
     {
-        //
+        $actors = Actor::all();
+
+        return response()->json([
+            'actors' => $actors
+        ]);
     }
 
     /**
@@ -42,8 +47,12 @@ class ActorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): Response
+    public function destroy(Actor $actor): Response
     {
-        //
+        $actor->delete();
+
+        return response()->json([
+            'message' => 'actor deleted'
+        ]);
     }
 }

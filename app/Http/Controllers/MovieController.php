@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -12,7 +13,11 @@ class MovieController extends Controller
      */
     public function index(): Response
     {
-        //
+        $movies = Movie::all();
+
+        return response()->json([
+            'movies' => $movies
+        ]);
     }
 
     /**
@@ -42,8 +47,12 @@ class MovieController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): Response
+    public function destroy(Movie $movie): Response
     {
-        //
+        $movie->delete();
+
+        return response()->json([
+            'message' => 'movie deleted'
+        ]);
     }
 }

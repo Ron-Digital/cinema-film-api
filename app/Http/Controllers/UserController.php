@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -12,7 +13,11 @@ class UserController extends Controller
      */
     public function index(): Response
     {
-        //
+        $users = User::all();
+
+        return response()->json([
+            'users' => $users
+        ]);
     }
 
     /**
@@ -42,8 +47,12 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): Response
+    public function destroy(User $user): Response
     {
-        //
+        $user->delete();
+
+        return response()->json([
+            'message' => 'user deleted'
+        ]);
     }
 }

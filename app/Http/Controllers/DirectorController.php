@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Director;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -12,7 +13,11 @@ class DirectorController extends Controller
      */
     public function index(): Response
     {
-        //
+        $directors = Director::all();
+
+        return response()->json([
+            'directors' => $directors
+        ]);
     }
 
     /**
@@ -42,8 +47,12 @@ class DirectorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): Response
+    public function destroy(Director $director): Response
     {
-        //
+        $director->delete();
+
+        return response()->json([
+            'message' => 'director deleted'
+        ]);
     }
 }

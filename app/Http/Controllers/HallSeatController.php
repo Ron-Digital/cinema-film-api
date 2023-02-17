@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HallSeat;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -12,7 +13,11 @@ class HallSeatController extends Controller
      */
     public function index(): Response
     {
-        //
+        $hall_seats = HallSeat::all();
+
+        return response()->json([
+            'hall_seats' => $hall_seats
+        ]);
     }
 
     /**
@@ -42,8 +47,12 @@ class HallSeatController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): Response
+    public function destroy(HallSeat $hall_seat): Response
     {
-        //
+        $hall_seat->delete();
+
+        return response()->json([
+            'message' => 'hall_seat deleted'
+        ]);
     }
 }

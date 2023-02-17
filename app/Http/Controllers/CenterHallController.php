@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CenterHall;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -12,7 +13,11 @@ class CenterHallController extends Controller
      */
     public function index(): Response
     {
-        //
+        $center_halls = CenterHall::all();
+
+        return response()->json([
+            'center_halls' => $center_halls
+        ]);
     }
 
     /**
@@ -42,8 +47,12 @@ class CenterHallController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): Response
+    public function destroy(CenterHall $center_hall): Response
     {
-        //
+        $center_hall->delete();
+
+        return response()->json([
+            'message' => 'center_hall deleted'
+        ]);
     }
 }
