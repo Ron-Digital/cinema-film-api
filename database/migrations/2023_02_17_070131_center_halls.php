@@ -11,7 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('center_halls', function (Blueprint $table) {
+            $table->id();
+            $table->string('hall_number');
+            $table->integer('how_many_seats');
+            $table->foreignId('movie_center_id')->references('id')->on('movie_centers')->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('center_halls');
     }
 };

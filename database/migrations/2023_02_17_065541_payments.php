@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hall_seats', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->integer('seat_number');
-            $table->boolean('is_empty')->default(0);
-            $table->foreignId('center_hall_id')->references('id')->on('center_halls')->onDelete('cascade')->onUpdate('cascade');
+            $table->boolean('is_paid')->default(0);
+            $table->foreignId('payment_plan_id')->references('id')->on('payment_plans')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('hall_seats');
+        Schema::dropIfExists('payments');
     }
 };
