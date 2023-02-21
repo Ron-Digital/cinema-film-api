@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DirectorResource;
 use App\Models\Director;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class DirectorController extends Controller
 {
@@ -15,9 +17,13 @@ class DirectorController extends Controller
     {
         $directors = Director::all();
 
-        return response()->json([
-            'directors' => $directors
-        ]);
+        if (!$directors) {
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+
+        return DirectorResource::collection($directors);
     }
 
     /**
@@ -25,23 +31,83 @@ class DirectorController extends Controller
      */
     public function store(Request $request): Response
     {
-        //
+        $rules = [
+            'name' => 'required',
+            'age' => 'required|numeric'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()
+            ]);
+        }
+
+        $director= new Director();
+        $director->name = $request->name;
+        $director->age = $request->age;
+        $director->save();
+
+        if (!$director) {
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'director' => new DirectorResource($director)
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id): Response
+    public function show(Director $director): Response
     {
-        //
+        if (!$director) {
+            return response()->json([
+                'message' => 'director not found'
+            ]);
+        }
+        return response()->json([
+            'director' => new DirectorResource($director)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): Response
+    public function update(Request $request, Director $director): Response
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'age' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'validationMessages' => $validator->errors()
+            ], 400);
+        }
+
+        $name=$request->name;
+        $age=$request->age;
+
+        $director = $director->update([
+            "name"=>$name,
+            "age"=>$age,
+        ]);
+
+        if(!$director){
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'director' => new DirectorResource($director)
+        ]);
     }
 
     /**

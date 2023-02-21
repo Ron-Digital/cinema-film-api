@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PaymentResource;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class PaymentController extends Controller
 {
@@ -15,9 +17,13 @@ class PaymentController extends Controller
     {
         $payments = Payment::all();
 
-        return response()->json([
-            'payments' => $payments
-        ]);
+        if (!$payments) {
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+
+        return PaymentResource::collection($payments);
     }
 
     /**
@@ -25,23 +31,83 @@ class PaymentController extends Controller
      */
     public function store(Request $request): Response
     {
-        //
+        $rules = [
+            'payment_plan_id' => 'required',
+            'is_paid' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()
+            ]);
+        }
+
+        $payment= new Payment();
+        $payment->payment_plan_id = $request->payment_plan_id;
+        $payment->is_paid = $request->is_paid;
+        $payment->save();
+
+        if (!$payment) {
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'payment' => new PaymentResource($payment)
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id): Response
+    public function show(Payment $payment): Response
     {
-        //
+        if (!$payment) {
+            return response()->json([
+                'message' => 'payment not found'
+            ]);
+        }
+        return response()->json([
+            'payment' => new PaymentResource($payment)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): Response
+    public function update(Request $request, Payment $payment): Response
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'payment_plan_id' => 'required',
+            'is_paid' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'validationMessages' => $validator->errors()
+            ], 400);
+        }
+
+        $payment_plan_id=$request->payment_plan_id;
+        $is_paid=$request->is_paid;
+
+        $payment = $payment->update([
+            "payment_plan_id"=>$payment_plan_id,
+            "is_paid"=>$is_paid,
+        ]);
+
+        if(!$payment){
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'payment' => new PaymentResource($payment)
+        ]);
     }
 
     /**

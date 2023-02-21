@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\HallSeatResource;
 use App\Models\HallSeat;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class HallSeatController extends Controller
 {
@@ -15,9 +17,13 @@ class HallSeatController extends Controller
     {
         $hall_seats = HallSeat::all();
 
-        return response()->json([
-            'hall_seats' => $hall_seats
-        ]);
+        if (!$hall_seats) {
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+
+        return HallSeatResource::collection($hall_seats);
     }
 
     /**
@@ -25,23 +31,88 @@ class HallSeatController extends Controller
      */
     public function store(Request $request): Response
     {
-        //
+        $rules = [
+            'hall_number' => 'required',
+            'how_many_seats' => 'required',
+            'movie_center_id' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()
+            ]);
+        }
+
+        $hall_seat= new HallSeat();
+        $hall_seat->seat_number = $request->seat_number;
+        $hall_seat->is_empty = $request->is_empty;
+        $hall_seat->center_hall_id = $request->center_hall_id;
+        $hall_seat->save();
+
+        if (!$hall_seat) {
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'hall_seat' => new HallSeatResource($hall_seat)
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id): Response
+    public function show(HallSeat $hall_seat): Response
     {
-        //
+        if (!$hall_seat) {
+            return response()->json([
+                'message' => 'hall_seat not found'
+            ]);
+        }
+        return response()->json([
+            'hall_seat' => new HallSeatResource($hall_seat)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): Response
+    public function update(Request $request, HallSeat $hall_seat): Response
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'seat_number' => 'required',
+            'is_empty' => 'required',
+            'center_hall_id' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'validationMessages' => $validator->errors()
+            ], 400);
+        }
+
+        $seat_number=$request->seat_number;
+        $is_empty=$request->is_empty;
+        $center_hall_id=$request->center_hall_id;
+
+        $hall_seat = $hall_seat->update([
+            "seat_number"=>$seat_number,
+            "is_empty"=>$is_empty,
+            "center_hall_id"=>$center_hall_id,
+        ]);
+
+        if(!$hall_seat){
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'hall_seat' => new HallSeatResource($hall_seat)
+        ]);
     }
 
     /**

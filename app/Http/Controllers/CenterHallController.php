@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CenterHallResource;
 use App\Models\CenterHall;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class CenterHallController extends Controller
 {
@@ -15,9 +17,13 @@ class CenterHallController extends Controller
     {
         $center_halls = CenterHall::all();
 
-        return response()->json([
-            'center_halls' => $center_halls
-        ]);
+        if (!$center_halls) {
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+
+        return CenterHallResource::collection($center_halls);
     }
 
     /**
@@ -25,23 +31,88 @@ class CenterHallController extends Controller
      */
     public function store(Request $request): Response
     {
-        //
+        $rules = [
+            'hall_number' => 'required',
+            'how_many_seats' => 'required',
+            'movie_center_id' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()
+            ]);
+        }
+
+        $center_hall= new CenterHall();
+        $center_hall->hall_number = $request->hall_number;
+        $center_hall->how_many_seats = $request->how_many_seats;
+        $center_hall->movie_center_id = $request->movie_center_id;
+        $center_hall->save();
+
+        if (!$center_hall) {
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'center_hall' => new CenterHallResource($center_hall)
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id): Response
+    public function show(CenterHall $center_hall): Response
     {
-        //
+        if (!$center_hall) {
+            return response()->json([
+                'message' => 'center_hall not found'
+            ]);
+        }
+        return response()->json([
+            'center_hall' => new CenterHallResource($center_hall)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): Response
+    public function update(Request $request, CenterHall $center_hall): Response
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'hall_number' => 'required',
+            'how_many_seats' => 'required',
+            'movie_center_id' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'validationMessages' => $validator->errors()
+            ], 400);
+        }
+
+        $hall_number=$request->hall_number;
+        $how_many_seats=$request->how_many_seats;
+        $movie_center_id=$request->movie_center_id;
+
+        $center_hall = $center_hall->update([
+            "hall_number"=>$hall_number,
+            "how_many_seats"=>$how_many_seats,
+            "movie_center_id"=>$movie_center_id,
+        ]);
+
+        if(!$center_hall){
+            return response()->json([
+                'message' => 'an unexpected error has occurred'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'center_hall' => new CenterHallResource($center_hall)
+        ]);
     }
 
     /**
