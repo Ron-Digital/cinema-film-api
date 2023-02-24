@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamp('show_time');
             $table->foreignId('center_hall_id')->references('id')->on('center_halls')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('movie_id')->references('id')->on('movies')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

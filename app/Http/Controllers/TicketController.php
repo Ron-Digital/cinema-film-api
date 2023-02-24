@@ -33,9 +33,6 @@ class TicketController extends Controller
     {
         $rules = [
             'user_id' => 'required',
-            'movie_id' => 'required',
-            'movie_center_id' => 'required',
-            'center_hall_id' => 'required',
             'hall_seat_id' => 'required',
             'hall_session_id' => 'required',
             'payment_id' => 'required'
@@ -51,9 +48,6 @@ class TicketController extends Controller
 
         $ticket= new Ticket();
         $ticket->user_id = $request->user_id;
-        $ticket->movie_id = $request->movie_id;
-        $ticket->movie_center_id = $request->movie_center_id;
-        $ticket->center_hall_id = $request->center_hall_id;
         $ticket->hall_seat_id = $request->hall_seat_id;
         $ticket->hall_session_id = $request->hall_session_id;
         $ticket->payment_id = $request->payment_id;
@@ -92,9 +86,6 @@ class TicketController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'user_id' => 'required',
-            'movie_id' => 'required',
-            'movie_center_id' => 'required',
-            'center_hall_id' => 'required',
             'hall_seat_id' => 'required',
             'hall_session_id' => 'required',
             'payment_id' => 'required'
@@ -107,18 +98,12 @@ class TicketController extends Controller
         }
 
         $user_id=$request->user_id;
-        $movie_id=$request->movie_id;
-        $movie_center_id=$request->movie_center_id;
-        $center_hall_id=$request->center_hall_id;
         $hall_seat_id=$request->hall_seat_id;
         $hall_session_id=$request->hall_session_id;
         $payment_id=$request->payment_id;
 
         $ticket = $ticket->update([
             "user_id"=>$user_id,
-            "movie_id"=>$movie_id,
-            "movie_center_id"=>$movie_center_id,
-            "center_hall_id"=>$center_hall_id,
             "hall_seat_id"=>$hall_seat_id,
             "hall_session_id"=>$hall_session_id,
             "payment_id"=>$payment_id,

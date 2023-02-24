@@ -14,6 +14,5 @@ class MovieCenter extends Model
     protected $fillable = [
         'name',
         'city',
-        'how_many_halls'
     ];
 }

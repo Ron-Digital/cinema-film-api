@@ -26,9 +26,6 @@ class TicketResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => new UserResource(User::find($this->user_id)),
-            'movie' => new MovieResource(Movie::find($this->movie_id)),
-            'movie_center' => new MovieCenterResource(MovieCenter::find($this->movie_center_id)),
-            'center_hall' => new CenterHallResource(CenterHall::find($this->center_hall_id)),
             'hall_seat' => new HallSeatResource(HallSeat::find($this->hall_seat_id)),
             'hall_session' => new HallSessionResource(HallSession::find($this->hall_session_id)),
             'payment' => new PaymentResource(Payment::find($this->payment_id))

@@ -13,7 +13,7 @@ class CenterHall extends Model
 
     protected $fillable = [
         'hall_number',
-        'how_many_seats',
+        'seats_count',
         'movie_center_id'
     ];
 }

@@ -20,7 +20,7 @@ class CenterHallResource extends JsonResource
         return [
             'id' => $this->id,
             'hall_number' => $this->hall_number,
-            'how_many_seats' => $this->how_many_seats,
+            'seats_count' => $this->seats_count,
             'movie_center' => new MovieCenterResource(MovieCenter::find($this->movie_center_id))
         ];
     }

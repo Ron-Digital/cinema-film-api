@@ -34,7 +34,6 @@ class MovieCenterController extends Controller
         $rules = [
             'name' => 'required',
             'city' => 'required',
-            'how_many_halls' => 'required'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -48,7 +47,6 @@ class MovieCenterController extends Controller
         $movie_center= new MovieCenter();
         $movie_center->name = $request->name;
         $movie_center->city = $request->city;
-        $movie_center->how_many_halls = $request->how_many_halls;
         $movie_center->save();
 
         if (!$movie_center) {
@@ -85,7 +83,6 @@ class MovieCenterController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'city' => 'required',
-            'how_many_halls' => 'required',
         ]);
 
         if($validator->fails()){
@@ -96,12 +93,10 @@ class MovieCenterController extends Controller
 
         $name=$request->name;
         $city=$request->city;
-        $how_many_halls=$request->how_many_halls;
 
         $movie_center = $movie_center->update([
             "name"=>$name,
             "city"=>$city,
-            "how_many_halls"=>$how_many_halls,
         ]);
 
         if(!$movie_center){

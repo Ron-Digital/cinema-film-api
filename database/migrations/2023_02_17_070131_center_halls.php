@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('center_halls', function (Blueprint $table) {
             $table->id();
             $table->string('hall_number');
-            $table->integer('how_many_seats');
+            $table->integer('seats_count');
             $table->foreignId('movie_center_id')->references('id')->on('movie_centers')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

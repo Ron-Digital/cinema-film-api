@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('city');
-            $table->integer('how_many_halls');
             $table->timestamps();
         });
     }

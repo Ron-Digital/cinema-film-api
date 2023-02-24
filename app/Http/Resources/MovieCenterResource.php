@@ -20,7 +20,6 @@ class MovieCenterResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'city' => $this->city,
-            'how_many_halls' => $this->how_many_halls
         ];
     }
 }
