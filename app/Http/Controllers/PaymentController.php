@@ -44,7 +44,7 @@ class PaymentController extends Controller
             ]);
         }
 
-        $payment= new Payment();
+        $payment = new Payment();
         $payment->payment_plan_id = $request->payment_plan_id;
         $payment->is_paid = $request->is_paid;
         $payment->save();
@@ -80,26 +80,26 @@ class PaymentController extends Controller
      */
     public function update(Request $request, Payment $payment): Response
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'payment_plan_id' => 'required|exists:payment_plans,id',
             'is_paid' => 'required|boolean'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'validationMessages' => $validator->errors()
             ], 400);
         }
 
-        $payment_plan_id=$request->payment_plan_id;
-        $is_paid=$request->is_paid;
+        $payment_plan_id = $request->payment_plan_id;
+        $is_paid = $request->is_paid;
 
         $payment = $payment->update([
-            "payment_plan_id"=>$payment_plan_id,
-            "is_paid"=>$is_paid,
+            "payment_plan_id" => $payment_plan_id,
+            "is_paid" => $is_paid,
         ]);
 
-        if(!$payment){
+        if (!$payment) {
             return response()->json([
                 'message' => 'an unexpected error has occurred'
             ]);

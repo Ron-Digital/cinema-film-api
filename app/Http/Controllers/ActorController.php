@@ -44,7 +44,7 @@ class ActorController extends Controller
             ]);
         }
 
-        $actor= new Actor();
+        $actor = new Actor();
         $actor->name = $request->name;
         $actor->age = $request->age;
         $actor->save();
@@ -80,26 +80,26 @@ class ActorController extends Controller
      */
     public function update(Request $request, Actor $actor): Response
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'age' => 'required|integer|between:10,99',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'validationMessages' => $validator->errors()
             ], 400);
         }
 
-        $name=$request->name;
-        $age=$request->age;
+        $name = $request->name;
+        $age = $request->age;
 
         $actor = $actor->update([
-            "name"=>$name,
-            "age"=>$age,
+            "name" => $name,
+            "age" => $age,
         ]);
 
-        if(!$actor){
+        if (!$actor) {
             return response()->json([
                 'message' => 'an unexpected error has occurred'
             ]);

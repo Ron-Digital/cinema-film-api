@@ -45,7 +45,7 @@ class HallSeatController extends Controller
             ]);
         }
 
-        $hall_seat= new HallSeat();
+        $hall_seat = new HallSeat();
         $hall_seat->seat_number = $request->seat_number;
         $hall_seat->is_empty = $request->is_empty;
         $hall_seat->center_hall_id = $request->center_hall_id;
@@ -82,29 +82,29 @@ class HallSeatController extends Controller
      */
     public function update(Request $request, HallSeat $hall_seat): Response
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'seat_number' => 'required|integer',
             'is_empty' => 'required|boolean',
             'center_hall_id' => 'required|exist:center_halls,id'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'validationMessages' => $validator->errors()
             ], 400);
         }
 
-        $seat_number=$request->seat_number;
-        $is_empty=$request->is_empty;
-        $center_hall_id=$request->center_hall_id;
+        $seat_number = $request->seat_number;
+        $is_empty = $request->is_empty;
+        $center_hall_id = $request->center_hall_id;
 
         $hall_seat = $hall_seat->update([
-            "seat_number"=>$seat_number,
-            "is_empty"=>$is_empty,
-            "center_hall_id"=>$center_hall_id,
+            "seat_number" => $seat_number,
+            "is_empty" => $is_empty,
+            "center_hall_id" => $center_hall_id,
         ]);
 
-        if(!$hall_seat){
+        if (!$hall_seat) {
             return response()->json([
                 'message' => 'an unexpected error has occurred'
             ]);

@@ -44,7 +44,7 @@ class PaymentPlanController extends Controller
             ]);
         }
 
-        $payment_plan= new PaymentPlan();
+        $payment_plan = new PaymentPlan();
         $payment_plan->title = $request->title;
         $payment_plan->price = $request->price;
         $payment_plan->save();
@@ -80,26 +80,26 @@ class PaymentPlanController extends Controller
      */
     public function update(Request $request, PaymentPlan $payment_plan): Response
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'title' => 'required',
             'price' => 'required|numeric|between:0,99.99'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'validationMessages' => $validator->errors()
             ], 400);
         }
 
-        $title=$request->title;
-        $price=$request->price;
+        $title = $request->title;
+        $price = $request->price;
 
         $payment_plan = $payment_plan->update([
-            "title"=>$title,
-            "price"=>$price,
+            "title" => $title,
+            "price" => $price,
         ]);
 
-        if(!$payment_plan){
+        if (!$payment_plan) {
             return response()->json([
                 'message' => 'an unexpected error has occurred'
             ]);

@@ -48,7 +48,7 @@ class MovieController extends Controller
             ]);
         }
 
-        $movie= new Movie();
+        $movie = new Movie();
         $movie->title = $request->title;
         $movie->description = $request->description;
         $movie->duration = $request->duration;
@@ -88,7 +88,7 @@ class MovieController extends Controller
      */
     public function update(Request $request, Movie $movie): Response
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'title' => 'required',
             'description' => 'required',
             'duration' => 'required|integer',
@@ -97,29 +97,29 @@ class MovieController extends Controller
             'director_id' => 'required|exist:directors,id'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'validationMessages' => $validator->errors()
             ], 400);
         }
 
-        $title=$request->title;
-        $description=$request->description;
-        $duration=$request->duration;
-        $release_date=$request->release_date;
-        $category_id=$request->category_id;
-        $director_id=$request->director_id;
+        $title = $request->title;
+        $description = $request->description;
+        $duration = $request->duration;
+        $release_date = $request->release_date;
+        $category_id = $request->category_id;
+        $director_id = $request->director_id;
 
         $movie = $movie->update([
-            "title"=>$title,
-            "description"=>$description,
-            "duration"=>$duration,
-            "release_date"=>$release_date,
-            "category_id"=>$category_id,
-            "director_id"=>$director_id,
+            "title" => $title,
+            "description" => $description,
+            "duration" => $duration,
+            "release_date" => $release_date,
+            "category_id" => $category_id,
+            "director_id" => $director_id,
         ]);
 
-        if(!$movie){
+        if (!$movie) {
             return response()->json([
                 'message' => 'an unexpected error has occurred'
             ]);

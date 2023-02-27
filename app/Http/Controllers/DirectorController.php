@@ -44,7 +44,7 @@ class DirectorController extends Controller
             ]);
         }
 
-        $director= new Director();
+        $director = new Director();
         $director->name = $request->name;
         $director->age = $request->age;
         $director->save();
@@ -80,26 +80,26 @@ class DirectorController extends Controller
      */
     public function update(Request $request, Director $director): Response
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'age' => 'required|integer',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'validationMessages' => $validator->errors()
             ], 400);
         }
 
-        $name=$request->name;
-        $age=$request->age;
+        $name = $request->name;
+        $age = $request->age;
 
         $director = $director->update([
-            "name"=>$name,
-            "age"=>$age,
+            "name" => $name,
+            "age" => $age,
         ]);
 
-        if(!$director){
+        if (!$director) {
             return response()->json([
                 'message' => 'an unexpected error has occurred'
             ]);

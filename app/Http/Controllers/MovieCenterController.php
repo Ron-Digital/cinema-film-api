@@ -44,7 +44,7 @@ class MovieCenterController extends Controller
             ]);
         }
 
-        $movie_center= new MovieCenter();
+        $movie_center = new MovieCenter();
         $movie_center->name = $request->name;
         $movie_center->city = $request->city;
         $movie_center->save();
@@ -80,26 +80,26 @@ class MovieCenterController extends Controller
      */
     public function update(Request $request, MovieCenter $movie_center): Response
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'city' => 'required',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'validationMessages' => $validator->errors()
             ], 400);
         }
 
-        $name=$request->name;
-        $city=$request->city;
+        $name = $request->name;
+        $city = $request->city;
 
         $movie_center = $movie_center->update([
-            "name"=>$name,
-            "city"=>$city,
+            "name" => $name,
+            "city" => $city,
         ]);
 
-        if(!$movie_center){
+        if (!$movie_center) {
             return response()->json([
                 'message' => 'an unexpected error has occurred'
             ]);

@@ -43,7 +43,7 @@ class CategoryController extends Controller
             ]);
         }
 
-        $category= new Category();
+        $category = new Category();
         $category->title = $request->title;
         $category->save();
 
@@ -78,23 +78,23 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category): Response
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'title' => 'required',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'validationMessages' => $validator->errors()
             ], 400);
         }
 
-        $title=$request->title;
+        $title = $request->title;
 
         $category = $category->update([
-            "title"=>$title,
+            "title" => $title,
         ]);
 
-        if(!$category){
+        if (!$category) {
             return response()->json([
                 'message' => 'an unexpected error has occurred'
             ]);

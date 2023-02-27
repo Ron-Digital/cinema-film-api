@@ -13,8 +13,9 @@ class UserController extends Controller
 {
     public function login(Request $request)
     {
-        $user= User::where('email', $request->email)->first();
-        // print_r($data);
+        try {
+            $user = User::where('email', $request->email)->first();
+            // print_r($data);
             if (!$user || !Hash::check($request->password, $user->password)) {
                 return response([
                     'message' => ['These credentials do not match our records.']
@@ -29,6 +30,13 @@ class UserController extends Controller
             ];
 
             return response($response, 201);
+            
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
     /**
      * Display a listing of the resource.
@@ -67,7 +75,7 @@ class UserController extends Controller
             ]);
         }
 
-        $user= new User();
+        $user = new User();
         $user->name = $request->name;
         $user->age = $request->age;
         $user->email = $request->email;
@@ -106,7 +114,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user): Response
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required|min:3',
             'age' => 'required|integer|between:10,99',
             'email' => 'required|unique:users,email',
@@ -114,27 +122,27 @@ class UserController extends Controller
             'gsm_number' => 'required|digits:10'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'validationMessages' => $validator->errors()
             ], 400);
         }
 
-        $name=$request->name;
-        $age=$request->age;
-        $email=$request->email;
-        $password=$request->password;
-        $gsm_number=$request->gsm_number;
+        $name = $request->name;
+        $age = $request->age;
+        $email = $request->email;
+        $password = $request->password;
+        $gsm_number = $request->gsm_number;
 
         $user = $user->update([
-            "name"=>$name,
-            "age"=>$age,
-            "email"=>$email,
-            "password"=>$password,
-            "gsm_number"=>$gsm_number,
+            "name" => $name,
+            "age" => $age,
+            "email" => $email,
+            "password" => $password,
+            "gsm_number" => $gsm_number,
         ]);
 
-        if(!$user){
+        if (!$user) {
             return response()->json([
                 'message' => 'an unexpected error has occurred'
             ]);

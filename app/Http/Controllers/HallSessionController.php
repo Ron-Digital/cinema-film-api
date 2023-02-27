@@ -45,7 +45,7 @@ class HallSessionController extends Controller
             ]);
         }
 
-        $hall_session= new HallSession();
+        $hall_session = new HallSession();
         $hall_session->show_time = $request->show_time;
         $hall_session->center_hall_id = $request->center_hall_id;
         $hall_session->movie_id = $request->movie_id;
@@ -82,29 +82,29 @@ class HallSessionController extends Controller
      */
     public function update(Request $request, HallSession $hall_session): Response
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'show_time' => 'required',
             'center_hall_id' => 'required',
             'movie_id' => 'required'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'validationMessages' => $validator->errors()
             ], 400);
         }
 
-        $show_time=$request->show_time;
-        $center_hall_id=$request->center_hall_id;
-        $movie_id=$request->movie_id;
+        $show_time = $request->show_time;
+        $center_hall_id = $request->center_hall_id;
+        $movie_id = $request->movie_id;
 
         $hall_session = $hall_session->update([
-            "show_time"=>$show_time,
-            "center_hall_id"=>$center_hall_id,
-            "movie_id"=>$movie_id
+            "show_time" => $show_time,
+            "center_hall_id" => $center_hall_id,
+            "movie_id" => $movie_id
         ]);
 
-        if(!$hall_session){
+        if (!$hall_session) {
             return response()->json([
                 'message' => 'an unexpected error has occurred'
             ]);

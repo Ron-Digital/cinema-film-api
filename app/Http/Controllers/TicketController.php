@@ -46,7 +46,7 @@ class TicketController extends Controller
             ]);
         }
 
-        $ticket= new Ticket();
+        $ticket = new Ticket();
         $ticket->user_id = $request->user_id;
         $ticket->hall_seat_id = $request->hall_seat_id;
         $ticket->hall_session_id = $request->hall_session_id;
@@ -84,32 +84,32 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket): Response
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',
             'hall_seat_id' => 'required|exists:hall_seats,id',
             'hall_session_id' => 'required|exists:hall_sessions,id',
             'payment_id' => 'required|exists:payments,id'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'validationMessages' => $validator->errors()
             ], 400);
         }
 
-        $user_id=$request->user_id;
-        $hall_seat_id=$request->hall_seat_id;
-        $hall_session_id=$request->hall_session_id;
-        $payment_id=$request->payment_id;
+        $user_id = $request->user_id;
+        $hall_seat_id = $request->hall_seat_id;
+        $hall_session_id = $request->hall_session_id;
+        $payment_id = $request->payment_id;
 
         $ticket = $ticket->update([
-            "user_id"=>$user_id,
-            "hall_seat_id"=>$hall_seat_id,
-            "hall_session_id"=>$hall_session_id,
-            "payment_id"=>$payment_id,
+            "user_id" => $user_id,
+            "hall_seat_id" => $hall_seat_id,
+            "hall_session_id" => $hall_session_id,
+            "payment_id" => $payment_id,
         ]);
 
-        if(!$ticket){
+        if (!$ticket) {
             return response()->json([
                 'message' => 'an unexpected error has occurred'
             ]);
