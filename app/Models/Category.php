@@ -14,4 +14,9 @@ class Category extends Model
     protected $fillable = [
         'title'
     ];
+
+    public function movies()
+    {
+        return $this->belongsToMany(Movie::class);
+    }
 }

@@ -15,4 +15,9 @@ class MovieCenter extends Model
         'name',
         'city',
     ];
+
+    public function center_halls()
+    {
+        return $this->hasMany(CenterHall::class);
+    }
 }

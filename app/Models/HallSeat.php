@@ -16,4 +16,9 @@ class HallSeat extends Model
         'is_empty',
         'center_hall_id'
     ];
+
+    public function center_hall()
+    {
+        return $this->belongsTo(CenterHall::class);
+    }
 }

@@ -15,4 +15,9 @@ class Payment extends Model
         'payment_plan_id',
         'is_paid'
     ];
+
+    public function payment_plan()
+    {
+        return $this->hasOne(PaymentPlan::class);
+    }
 }

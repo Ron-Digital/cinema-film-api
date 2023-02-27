@@ -16,4 +16,14 @@ class CenterHall extends Model
         'seats_count',
         'movie_center_id'
     ];
+
+    public function hall_seats()
+    {
+        return $this->hasMany(HallSeat::class);
+    }
+
+    public function hall_sessions()
+    {
+        return $this->hasMany(HallSession::class);
+    }
 }

@@ -16,4 +16,9 @@ class HallSession extends Model
         'center_hall_id',
         'movie_id'
     ];
+
+    public function center_hall()
+    {
+        return $this->belongsTo(CenterHall::class);
+    }
 }

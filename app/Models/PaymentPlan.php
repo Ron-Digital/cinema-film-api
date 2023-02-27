@@ -15,4 +15,9 @@ class PaymentPlan extends Model
         'title',
         'price'
     ];
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class);
+    }
 }

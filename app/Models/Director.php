@@ -15,4 +15,9 @@ class Director extends Model
         'name',
         'age'
     ];
+
+    public function movies()
+    {
+        return $this->belongsToMany(Movie::class);
+    }
 }

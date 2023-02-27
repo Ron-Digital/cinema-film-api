@@ -17,4 +17,24 @@ class Ticket extends Model
         'hall_session_id',
         'payment_id'
     ];
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+
+    public function hall_session()
+    {
+        return $this->hasOne(HallSession::class);
+    }
+
+    public function hall_seat()
+    {
+        return $this->hasOne(HallSeat::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
 }
