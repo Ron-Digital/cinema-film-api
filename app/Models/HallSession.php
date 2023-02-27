@@ -13,6 +13,7 @@ class HallSession extends Model
 
     protected $fillable = [
         'show_time',
-        'center_hall_id'
+        'center_hall_id',
+        'movie_id'
     ];
 }

@@ -34,6 +34,7 @@ class HallSessionController extends Controller
         $rules = [
             'show_time' => 'required',
             'center_hall_id' => 'required',
+            'movie_id' => 'required'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -47,6 +48,7 @@ class HallSessionController extends Controller
         $hall_session= new HallSession();
         $hall_session->show_time = $request->show_time;
         $hall_session->center_hall_id = $request->center_hall_id;
+        $hall_session->movie_id = $request->movie_id;
         $hall_session->save();
 
         if (!$hall_session) {
@@ -83,6 +85,7 @@ class HallSessionController extends Controller
         $validator = Validator::make($request->all(),[
             'show_time' => 'required',
             'center_hall_id' => 'required',
+            'movie_id' => 'required'
         ]);
 
         if($validator->fails()){
@@ -93,10 +96,12 @@ class HallSessionController extends Controller
 
         $show_time=$request->show_time;
         $center_hall_id=$request->center_hall_id;
+        $movie_id=$request->movie_id;
 
         $hall_session = $hall_session->update([
             "show_time"=>$show_time,
             "center_hall_id"=>$center_hall_id,
+            "movie_id"=>$movie_id
         ]);
 
         if(!$hall_session){
