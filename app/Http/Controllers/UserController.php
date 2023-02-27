@@ -52,11 +52,11 @@ class UserController extends Controller
     public function store(Request $request): Response
     {
         $rules = [
-            'name' => 'required',
-            'age' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'gsm_number' => 'required'
+            'name' => 'required|min:3',
+            'age' => 'required|integer|between:10,99',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|min:6',
+            'gsm_number' => 'required|digits:10'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -107,11 +107,11 @@ class UserController extends Controller
     public function update(Request $request, User $user): Response
     {
         $validator = Validator::make($request->all(),[
-            'name' => 'required',
-            'age' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'gsm_number' => 'required',
+            'name' => 'required|min:3',
+            'age' => 'required|integer|between:10,99',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|min:6',
+            'gsm_number' => 'required|digits:10'
         ]);
 
         if($validator->fails()){

@@ -32,9 +32,9 @@ class HallSeatController extends Controller
     public function store(Request $request): Response
     {
         $rules = [
-            'seat_number' => 'required',
-            'is_empty' => 'required',
-            'center_hall_id' => 'required'
+            'seat_number' => 'required|integer',
+            'is_empty' => 'required|boolean',
+            'center_hall_id' => 'required|exist:center_halls,id'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -83,9 +83,9 @@ class HallSeatController extends Controller
     public function update(Request $request, HallSeat $hall_seat): Response
     {
         $validator = Validator::make($request->all(),[
-            'seat_number' => 'required',
-            'is_empty' => 'required',
-            'center_hall_id' => 'required',
+            'seat_number' => 'required|integer',
+            'is_empty' => 'required|boolean',
+            'center_hall_id' => 'required|exist:center_halls,id'
         ]);
 
         if($validator->fails()){

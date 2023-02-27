@@ -34,10 +34,10 @@ class MovieController extends Controller
         $rules = [
             'title' => 'required',
             'description' => 'required',
-            'duration' => 'required',
-            'release_date' => 'required',
-            'category_id' => 'required',
-            'director_id' => 'required'
+            'duration' => 'required|integer',
+            'release_date' => 'required|date',
+            'category_id' => 'required|exist:categories,id',
+            'director_id' => 'required|exist:directors,id',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -91,10 +91,10 @@ class MovieController extends Controller
         $validator = Validator::make($request->all(),[
             'title' => 'required',
             'description' => 'required',
-            'duration' => 'required',
-            'release_date' => 'required',
-            'category_id' => 'required',
-            'director_id' => 'required',
+            'duration' => 'required|integer',
+            'release_date' => 'required|date',
+            'category_id' => 'required|exist:categories,id',
+            'director_id' => 'required|exist:directors,id'
         ]);
 
         if($validator->fails()){

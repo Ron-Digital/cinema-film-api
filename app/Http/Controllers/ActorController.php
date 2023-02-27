@@ -33,7 +33,7 @@ class ActorController extends Controller
     {
         $rules = [
             'name' => 'required',
-            'age' => 'required|numeric'
+            'age' => 'required|integer|between:10,99'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -82,7 +82,7 @@ class ActorController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'name' => 'required',
-            'age' => 'required',
+            'age' => 'required|integer|between:10,99',
         ]);
 
         if($validator->fails()){

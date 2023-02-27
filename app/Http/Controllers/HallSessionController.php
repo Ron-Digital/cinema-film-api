@@ -32,9 +32,9 @@ class HallSessionController extends Controller
     public function store(Request $request): Response
     {
         $rules = [
-            'show_time' => 'required',
-            'center_hall_id' => 'required',
-            'movie_id' => 'required'
+            'show_time' => 'required|date_format:Y-m-d H:i:s|after_or_equal:now',
+            'center_hall_id' => 'required|exist:center_halls,id',
+            'movie_id' => 'required|exist:movies,id'
         ];
 
         $validator = Validator::make($request->all(), $rules);

@@ -33,7 +33,7 @@ class DirectorController extends Controller
     {
         $rules = [
             'name' => 'required',
-            'age' => 'required|numeric'
+            'age' => 'required|integer'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -82,7 +82,7 @@ class DirectorController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'name' => 'required',
-            'age' => 'required',
+            'age' => 'required|integer',
         ]);
 
         if($validator->fails()){

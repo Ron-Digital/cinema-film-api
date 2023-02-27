@@ -32,9 +32,9 @@ class CenterHallController extends Controller
     public function store(Request $request): Response
     {
         $rules = [
-            'hall_number' => 'required',
-            'seats_count' => 'required',
-            'movie_center_id' => 'required'
+            'hall_number' => 'required|integer',
+            'seats_count' => 'required|integer',
+            'movie_center_id' => 'required|exist:movie_centers,id'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -83,9 +83,9 @@ class CenterHallController extends Controller
     public function update(Request $request, CenterHall $center_hall): Response
     {
         $validator = Validator::make($request->all(),[
-            'hall_number' => 'required',
-            'seats_count' => 'required',
-            'movie_center_id' => 'required',
+            'hall_number' => 'required|integer',
+            'seats_count' => 'required|integer',
+            'movie_center_id' => 'required|exist:movie_centers,id'
         ]);
 
         if($validator->fails()){

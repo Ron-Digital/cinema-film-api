@@ -32,8 +32,8 @@ class PaymentController extends Controller
     public function store(Request $request): Response
     {
         $rules = [
-            'payment_plan_id' => 'required',
-            'is_paid' => 'required',
+            'payment_plan_id' => 'required|exists:payment_plans,id',
+            'is_paid' => 'required|boolean'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -81,8 +81,8 @@ class PaymentController extends Controller
     public function update(Request $request, Payment $payment): Response
     {
         $validator = Validator::make($request->all(),[
-            'payment_plan_id' => 'required',
-            'is_paid' => 'required',
+            'payment_plan_id' => 'required|exists:payment_plans,id',
+            'is_paid' => 'required|boolean'
         ]);
 
         if($validator->fails()){

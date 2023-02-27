@@ -33,7 +33,7 @@ class PaymentPlanController extends Controller
     {
         $rules = [
             'title' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric|between:0,99.99',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -82,7 +82,7 @@ class PaymentPlanController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'title' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric|between:0,99.99'
         ]);
 
         if($validator->fails()){

@@ -32,10 +32,10 @@ class TicketController extends Controller
     public function store(Request $request): Response
     {
         $rules = [
-            'user_id' => 'required',
-            'hall_seat_id' => 'required',
-            'hall_session_id' => 'required',
-            'payment_id' => 'required'
+            'user_id' => 'required|exists:users,id',
+            'hall_seat_id' => 'required|exists:hall_seats,id',
+            'hall_session_id' => 'required|exists:hall_sessions,id',
+            'payment_id' => 'required|exists:payments,id'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -85,10 +85,10 @@ class TicketController extends Controller
     public function update(Request $request, Ticket $ticket): Response
     {
         $validator = Validator::make($request->all(),[
-            'user_id' => 'required',
-            'hall_seat_id' => 'required',
-            'hall_session_id' => 'required',
-            'payment_id' => 'required'
+            'user_id' => 'required|exists:users,id',
+            'hall_seat_id' => 'required|exists:hall_seats,id',
+            'hall_session_id' => 'required|exists:hall_sessions,id',
+            'payment_id' => 'required|exists:payments,id'
         ]);
 
         if($validator->fails()){
